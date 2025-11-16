@@ -1,69 +1,141 @@
 import 'package:flutter/material.dart';
 
 class FlameControlPage extends StatefulWidget {
+  const FlameControlPage({super.key});
+
   @override
-  _FlameControlPageState createState() => _FlameControlPageState();
+  State<FlameControlPage> createState() => _FlameControlPageState();
 }
 
 class _FlameControlPageState extends State<FlameControlPage> {
-  String flame = "Medium";
-
-  Widget buildFlameButton(String label, Color color) {
-    return GestureDetector(
-      onTap: () => setState(() => flame = label),
-      child: AnimatedContainer(
-        duration: Duration(milliseconds: 300),
-        padding: EdgeInsets.all(25),
-        decoration: BoxDecoration(
-          color: flame == label ? color : Colors.grey[200],
-          borderRadius: BorderRadius.circular(20),
-          boxShadow: [BoxShadow(color: Colors.black26, blurRadius: 6)],
-        ),
-        child: Column(
-          children: [
-            Icon(Icons.local_fire_department,
-                size: 60, color: flame == label ? Colors.white : color),
-            SizedBox(height: 8),
-            Text(label,
-                style: TextStyle(
-                    color: flame == label ? Colors.white : Colors.black87,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold)),
-          ],
-        ),
-      ),
-    );
-  }
+  String _flameLevel = "Medium";
 
   @override
   Widget build(BuildContext context) {
+    IconData flameIcon = Icons.local_fire_department;
+    double iconSize = _flameLevel == "Low"
+        ? 60
+        : _flameLevel == "Medium"
+            ? 85
+            : 110;
+
+    Color flameColor = _flameLevel == "Low"
+        ? Colors.orange.shade300
+        : _flameLevel == "Medium"
+            ? Colors.deepOrange
+            : Colors.redAccent;
+
     return Scaffold(
-      appBar: AppBar(title: Text("Flame Control"), backgroundColor: Colors.deepOrangeAccent),
+      appBar: AppBar(
+        title: const Text("Flame Control"),
+        backgroundColor: Colors.teal.shade600,
+        centerTitle: true,
+      ),
       body: Container(
+        width: double.infinity,
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [Colors.orange.shade100, Colors.yellow.shade100],
+            colors: [Colors.teal.shade50, Colors.teal.shade100],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
           ),
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text("Adjust Flame Level", style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.deepOrange)),
-            SizedBox(height: 30),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                buildFlameButton("Low", Colors.blue),
-                buildFlameButton("Medium", Colors.orange),
-                buildFlameButton("High", Colors.redAccent),
-              ],
+        child: Center(
+          child: Card(
+            elevation: 8,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(25),
             ),
-            SizedBox(height: 50),
-            Text("Current Flame: $flame",
-                style: TextStyle(fontSize: 22, color: Colors.deepOrangeAccent, fontWeight: FontWeight.w600)),
-          ],
+            margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+            child: Padding(
+              padding: const EdgeInsets.all(25),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(flameIcon, color: flameColor, size: iconSize),
+                  const SizedBox(height: 10),
+                  Text(
+                    "Flame Level",
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.grey.shade700,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  const SizedBox(height: 5),
+                  Text(
+                    _flameLevel,
+                    style: TextStyle(
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold,
+                      color: flameColor,
+                    ),
+                  ),
+                  const SizedBox(height: 25),
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15),
+                      color: Colors.teal.shade50,
+                    ),
+                    child: ToggleButtons(
+                      borderRadius: BorderRadius.circular(15),
+                      color: Colors.teal.shade700,
+                      selectedColor: Colors.white,
+                      fillColor: Colors.teal,
+                      isSelected: [
+                        _flameLevel == "Low",
+                        _flameLevel == "Medium",
+                        _flameLevel == "High"
+                      ],
+                      onPressed: (index) {
+                        setState(() {
+                          if (index == 0) _flameLevel = "Low";
+                          else if (index == 1) _flameLevel = "Medium";
+                          else _flameLevel = "High";
+                        });
+                      },
+                      children: const [
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                              vertical: 10, horizontal: 18),
+                          child: Text("Low"),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                              vertical: 10, horizontal: 18),
+                          child: Text("Medium"),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                              vertical: 10, horizontal: 18),
+                          child: Text("High"),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 25),
+                  AnimatedContainer(
+                    duration: const Duration(milliseconds: 500),
+                    height: 8,
+                    width: _flameLevel == "Low"
+                        ? 80
+                        : _flameLevel == "Medium"
+                            ? 130
+                            : 200,
+                    decoration: BoxDecoration(
+                      color: flameColor,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  const Text(
+                    "Adjust flame intensity using the buttons above",
+                    style: TextStyle(fontSize: 13, color: Colors.grey),
+                  ),
+                ],
+              ),
+            ),
+          ),
         ),
       ),
     );

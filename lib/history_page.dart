@@ -1,22 +1,26 @@
 import 'package:flutter/material.dart';
 
 class HistoryPage extends StatelessWidget {
-  final List<String> history = [
-    "08:00 - Cooked Breakfast (15 mins)",
-    "12:30 - Lunch (20 mins)",
-    "19:00 - Dinner (25 mins)",
-  ];
+  const HistoryPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Cooking History")),
+      backgroundColor: const Color(0xFFF8F6FF),
+      appBar: AppBar(
+        title: const Text("History"),
+        backgroundColor: Colors.white,
+      ),
       body: ListView.builder(
-        itemCount: history.length,
-        itemBuilder: (context, index) {
-          return ListTile(
-            leading: Icon(Icons.history),
-            title: Text(history[index]),
+        itemCount: 5,
+        padding: const EdgeInsets.all(15),
+        itemBuilder: (_, i) {
+          return Card(
+            child: ListTile(
+              leading: const Icon(Icons.history),
+              title: Text("Record #${i + 1}"),
+              subtitle: const Text("Worked 15 mins • Medium Flame"),
+            ),
           );
         },
       ),

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "91652984606",
+    "project_id": "smart-gas-29e52",
+    "storage_bucket": "smart-gas-29e52.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:91652984606:android:5f77f2171863482dc2030f",
+        "android_client_info": {
+          "package_name": "com.example.iot"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAH3DSLnuKDNJxKDp3Z_UklLS0FjQ_b9Ug"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
